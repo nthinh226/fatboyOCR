@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#182E3F</color>
     <color name="bg_btn">#FE5150</color>
+    <color name="colorPrimaryDark">#212226</color>
 </resources>

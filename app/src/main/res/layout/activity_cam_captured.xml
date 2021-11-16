@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cam_Captured">
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/txtChupLai"
+        android:layout_height="wrap_content"
+        android:text="CHỤP LẠI"/>
+    <ImageView
+        android:id="@+id/imagePreview"
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:layout_marginLeft="20dp"
+        android:src="@color/black"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="100dp"/>
+
+</RelativeLayout>

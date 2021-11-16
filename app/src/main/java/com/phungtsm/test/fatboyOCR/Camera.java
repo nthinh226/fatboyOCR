@@ -1,23 +1,27 @@
 package com.phungtsm.test.fatboyOCR;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.camerakit.CameraKitView;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 public class Camera extends AppCompatActivity {
     private CameraKitView cameraKitView;
     private ImageView photoButton;
+    private FrameLayout cameraLayout;
+    private ViewFinderView viewFinderView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +30,46 @@ public class Camera extends AppCompatActivity {
 
         cameraKitView = findViewById(R.id.camera);
         photoButton = findViewById(R.id.photoButton);
-        photoButton.setOnClickListener(photoOnClickListener);
+        photoButton.setOnClickListener(v -> {
+            cameraKitView.captureImage((cameraKitView, capturedImage) -> {
+                File savedPhoto = new File(getExternalFilesDir(null), "/camerakittest.jpg");
+                Log.e("Status", "trang thai: "+savedPhoto.getPath());
+                try {
+
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.length);
+                    Bitmap croppedBitmap = Bitmap.createBitmap(bitmap,
+                            viewFinderView.getFrameRect().left,
+                            viewFinderView.getFrameRect().top,
+//                            viewFinderView.getFrameRect().right - viewFinderView.getFrameRect().left,
+                            120,
+                            120);
+//                            viewFinderView.getFrameRect().height());
+
+//                    String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
+//                    Log.d("onCreate: ",croppedBitmapBase64);
+
+                    Intent myIntent = new Intent(this, Cam_Captured.class);
+                        myIntent.putExtra("pic", croppedBitmap);
+                        startActivity(myIntent);
+
+//                    FileOutputStream outputStream = new FileOutputStream(savedPhoto);
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+//                    outputStream.write(byteArray);
+//                    outputStream.close();
+//                        Intent myIntent = new Intent(MainActivity.this, MainActivity2.class);
+//                        myIntent.putExtra("basecode", savedPhoto.getPath());
+//                        startActivity(myIntent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                }
+            });
+        });
+        cameraLayout = findViewById(R.id.cameraLayout);
+        viewFinderView = new ViewFinderView(getApplicationContext());
+        cameraLayout.addView(viewFinderView, 1);
     }
     @Override
     protected void onStart() {
@@ -57,30 +100,6 @@ public class Camera extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         cameraKitView.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-    private View.OnClickListener photoOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            cameraKitView.captureImage(new CameraKitView.ImageCallback() {
-                @Override
-                public void onImage(CameraKitView cameraKitView, final byte[] capturedImage) {
-                    File savedPhoto = new File(getExternalFilesDir(null), "/camerakittest.jpg");
-                    Log.e("Status", "trang thai: "+savedPhoto.getPath());
-                    try {
-                        FileOutputStream outputStream = new FileOutputStream(savedPhoto);
-                        outputStream.write(capturedImage);
-                        outputStream.close();
-//                        Intent myIntent = new Intent(MainActivity.this, MainActivity2.class);
-//                        myIntent.putExtra("basecode", savedPhoto.getPath());
-//                        startActivity(myIntent);
-                    } catch (java.io.IOException e) {
-                        e.printStackTrace();
-
-                    }
-                }
-            });
-
-        }
-    };
 
     private void writeToFile(String data, Context context) {
         try {

@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_camera.xml" value="0.26875" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/drawable-v24/nut_chup_hinh.xml" value="0.28489583333333335" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/drawable-v24/rectangle.xml" value="0.21614583333333334" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_cam_captured.xml" value="0.26875" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_camera.xml" value="0.2" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main.xml" value="0.2546875" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main_cccd.xml" value="0.26875" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main_cmnd.xml" value="0.26875" />
@@ -16,5 +19,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.2" />
+      </ProjectState>
+    </option>
   </component>
 </project>

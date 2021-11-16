@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnCMND.setOnClickListener(this);
         btnCCCD.setOnClickListener(this);
         btnHC.setOnClickListener(this);
+
     }
 
     @Override

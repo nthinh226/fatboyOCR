@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FatboyOCR">
         <activity
+            android:name=".Cam_Captured"
+            android:exported="true" />
+        <activity
             android:name=".Camera"
             android:exported="true" />
         <activity

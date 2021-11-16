@@ -1,52 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
+    android:id="@+id/cameraLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context=".Camera">
 
-    <RelativeLayout
+    <com.camerakit.CameraKitView
+        android:id="@+id/camera"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layout_phu">
-        <LinearLayout
-            android:id="@+id/layout_camera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp">
+        android:keepScreenOn="true"
+        app:camera_facing="back"
+        app:camera_flash="auto"
+        app:camera_focus="continuous"
+        app:camera_permissions="camera" />
 
-            <com.camerakit.CameraKitView
-                android:id="@+id/camera"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:keepScreenOn="true"
-                app:camera_facing="back"
-                app:camera_flash="auto"
-                app:camera_focus="continuous"
-                app:camera_permissions="camera" />
-        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:alpha="0.3"
+        android:background="@color/black" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_camera"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:text="Vui lòng chụp đúng trong khung"
-            android:textSize="20sp" />
-    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Vui lòng chụp đúng trong khung"
+        android:textSize="20sp" />
+
 
     <ImageView
-        android:layout_alignParentBottom="true"
         android:id="@+id/photoButton"
-        android:layout_width="144px"
-        android:layout_height="144px"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="50dp"
         android:backgroundTint="@color/purple_200"
         android:src="@drawable/nut_chup_hinh" />
-</RelativeLayout>
+
+</FrameLayout>

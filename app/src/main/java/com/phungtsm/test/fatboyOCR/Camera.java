@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -13,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.camerakit.CameraKitView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -30,24 +34,39 @@ public class Camera extends AppCompatActivity {
 
         cameraKitView = findViewById(R.id.camera);
         photoButton = findViewById(R.id.photoButton);
+
         photoButton.setOnClickListener(v -> {
             cameraKitView.captureImage((cameraKitView, capturedImage) -> {
                 File savedPhoto = new File(getExternalFilesDir(null), "/camerakittest.jpg");
                 Log.e("Status", "trang thai: "+savedPhoto.getPath());
                 try {
-
                     Bitmap bitmap = BitmapFactory.decodeByteArray(capturedImage, 0, capturedImage.length);
+
+
+
+                    Log.d("onCreate: ",viewFinderView.getTop()+" ");
+
+                    Log.d("onCreate: ",viewFinderView.getFrameRect().left+"-"+viewFinderView.getFrameRect().top+"-"+
+                            (viewFinderView.getFrameRect().right - viewFinderView.getFrameRect().left)+"-"+
+                            (viewFinderView.getFrameRect().bottom - viewFinderView.getFrameRect().top)+
+                            "width:"+bitmap.getWidth()+
+                            "hegiht:"+bitmap.getHeight());
+
                     Bitmap croppedBitmap = Bitmap.createBitmap(bitmap,
                             viewFinderView.getFrameRect().left,
                             viewFinderView.getFrameRect().top,
-//                            viewFinderView.getFrameRect().right - viewFinderView.getFrameRect().left,
-                            120,
-                            120);
-//                            viewFinderView.getFrameRect().height());
+                            (viewFinderView.getFrameRect().right - viewFinderView.getFrameRect().left)-100,
+                            (viewFinderView.getFrameRect().bottom - viewFinderView.getFrameRect().top)-50);
 
-//                    String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
-//                    Log.d("onCreate: ",croppedBitmapBase64);
+                    FileOutputStream outputStream = new FileOutputStream(savedPhoto);
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    outputStream.write(byteArray);
+                    outputStream.close();
 
+                    String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
+                    Log.d("onCreate: ",croppedBitmapBase64);
                     Intent myIntent = new Intent(this, Cam_Captured.class);
                         myIntent.putExtra("pic", croppedBitmap);
                         startActivity(myIntent);
@@ -63,7 +82,6 @@ public class Camera extends AppCompatActivity {
 //                        startActivity(myIntent);
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             });
         });
@@ -111,4 +129,5 @@ public class Camera extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
+
 }

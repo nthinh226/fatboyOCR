@@ -24,8 +24,11 @@
 package com.phungtsm.test.fatboyOCR;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -37,6 +40,8 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.Px;
+
+import java.io.ByteArrayOutputStream;
 
 public class ViewFinderView extends View {
     private final Paint mMaskPaint;
@@ -63,7 +68,7 @@ public class ViewFinderView extends View {
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setFrameAspectRatio(5f, 3.5f);
         setMaskColor(Color.parseColor("#7F000000"));
-        setFrameColor(Color.parseColor("#229bd6"));
+        setFrameColor(Color.parseColor("#3E7453"));
         setFrameThickness(Math.round(2f * density));
         setFrameCornersSize(Math.round(20f * density));
         setFrameCornersRadius(Math.round(15f * density));
@@ -289,4 +294,6 @@ public class ViewFinderView extends View {
             mFrameRect = new Rect(frameLeft, frameTop, frameLeft + frameWidth, frameTop + frameHeight);
         }
     }
+
+
 }

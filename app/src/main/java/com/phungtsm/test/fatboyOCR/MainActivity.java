@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Button btnCMND, btnCCCD, btnHC;
-
+    public static int Flag = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +29,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnCMND:
-                Intent intent1 = new Intent(this, MainActivity_cmnd.class);
+                Flag = 1;
+                Intent intent1 = new Intent(this, Tutorial.class);
                 startActivity(intent1);
                 break;
             case R.id.btnCCCD:
-                Intent intent2 = new Intent(this, MainActivity_cccd.class);
+                Intent intent2 = new Intent(this, Tutorial.class);
                 startActivity(intent2);
                 break;
             case R.id.btnHC:
-                Intent intent3 = new Intent(this, MainActivity_hc.class);
+                Flag = 3;
+                Intent intent3 = new Intent(this, Tutorial.class);
                 startActivity(intent3);
                 break;
         }

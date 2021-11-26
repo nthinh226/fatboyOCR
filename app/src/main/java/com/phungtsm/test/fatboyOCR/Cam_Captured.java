@@ -17,7 +17,7 @@ public class Cam_Captured extends AppCompatActivity {
         imagePreview = findViewById(R.id.imagePreview);
 
         Intent intent = getIntent();
-        Bitmap bitmap = (Bitmap) intent.getParcelableExtra("pic");
+        Bitmap bitmap =(Bitmap) intent.getParcelableExtra("pic");
         imagePreview.setImageBitmap(bitmap);
     }
 }

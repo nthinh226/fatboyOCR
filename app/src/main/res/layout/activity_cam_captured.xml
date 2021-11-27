@@ -3,19 +3,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#182E3F"
     tools:context=".Cam_Captured">
+
     <TextView
-        android:layout_width="wrap_content"
         android:id="@+id/txtChupLai"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CHỤP LẠI"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:text="@string/chuplai"
+        android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/imagePreview"
         android:layout_width="match_parent"
         android:layout_height="600px"
         android:layout_marginLeft="20dp"
-        android:src="@color/black"
+        android:layout_marginTop="150dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="100dp"/>
+        android:background="@drawable/border_image"
+         />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_below="@id/imagePreview"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="43dp"
+        android:src="@drawable/circle" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_below="@id/imagePreview"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/circle" />
+
+    <TextView
+        android:id="@+id/txtNote1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imagePreview"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"
+        android:textSize="16dp"
+        android:text="Chọn CHỤP LẠI nếu ảnh mờ, loá, không rõ nét"
+        android:textColor="@color/white" />
+    <TextView
+        android:layout_below="@id/txtNote1"
+        android:layout_marginTop="15dp"
+        android:id="@+id/txtNote2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_marginLeft="40dp"
+        android:text="Chọn TIẾP THEO để chụp mặt sau"
+        android:textColor="@color/white"
+        />
+
+    <Button
+        android:id="@+id/btnTiepTucMS"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/bg_button"
+        android:text="TIẾP TỤC"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
 
 </RelativeLayout>

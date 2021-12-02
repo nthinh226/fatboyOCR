@@ -26,7 +26,8 @@ import java.io.OutputStreamWriter;
 
 public class Camera extends AppCompatActivity {
     private static LruCache<String, Bitmap> mMemoryCache;
-
+    public static String bMatTruoc =null;
+    public static String bMatSau =null;
 
     private CameraKitView cameraKitView;
     private ImageView photoButtonCap;
@@ -61,7 +62,10 @@ public class Camera extends AppCompatActivity {
 
 
         if(getIntent().getExtras()!=null){
-            txtDir.setText(getIntent().getStringExtra("matsau"));
+            txtDir.setText(getIntent().getStringExtra("chupmatsau"));
+            if(getIntent().getIntExtra("status",0)==0){
+                bMatTruoc = null;
+            }
         }
 
         // Get max available VM memory, exceeding this amount will throw an
@@ -108,7 +112,25 @@ public class Camera extends AppCompatActivity {
                             viewFinderView.getFrameRect().top,
                             (viewFinderView.getFrameRect().right - viewFinderView.getFrameRect().left-100),
                             (viewFinderView.getFrameRect().bottom - viewFinderView.getFrameRect().top)-100);
-                    addBitmapToMemoryCache("mattruoc",croppedBitmap);
+
+                    if(getIntent().getExtras()!=null){
+                        addBitmapToMemoryCache("imgmatsau",croppedBitmap);
+                        String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
+                        bMatSau = croppedBitmapBase64;
+                        Log.d("onCreate1: ", croppedBitmapBase64);
+                        Intent myIntent = new Intent(this, Cam_Captured.class);
+                        myIntent.putExtra("status", 1);
+                        myIntent.putExtra("imgmatsau", "imgmatsau");
+                        startActivity(myIntent);
+                    }else{
+                        addBitmapToMemoryCache("imgmattruoc",croppedBitmap);
+                        String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
+                        bMatTruoc = croppedBitmapBase64;
+                        Log.d("onCreate2: ", croppedBitmapBase64);
+                        Intent myIntent = new Intent(this, Cam_Captured.class);
+                        myIntent.putExtra("imgmattruoc", "imgmattruoc");
+                        startActivity(myIntent);
+                    }
 
                     FileOutputStream outputStream = new FileOutputStream(savedPhoto);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -117,11 +139,7 @@ public class Camera extends AppCompatActivity {
                     outputStream.write(byteArray);
                     outputStream.close();
 
-                    String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
-                    Log.d("onCreate: ", croppedBitmapBase64);
-                    Intent myIntent = new Intent(this, Cam_Captured.class);
-                    myIntent.putExtra("mattruoc", "mattruoc");
-                    startActivity(myIntent);
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

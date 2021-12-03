@@ -61,7 +61,7 @@ public class Cam_Captured extends AppCompatActivity implements View.OnClickListe
                     startActivity(myIntent);
                 }else{
                     save(Camera.bMatSau);
-                    startActivity(new Intent(this,MainActivity2.class));
+                    startActivity(new Intent(Cam_Captured.this,MainActivity2.class));
                 }
                 break;
         }

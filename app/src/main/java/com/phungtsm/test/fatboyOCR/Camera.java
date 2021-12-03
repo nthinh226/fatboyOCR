@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -36,6 +37,7 @@ public class Camera extends AppCompatActivity {
     private TextView txtTitle;
     private static TextView txtDir;
     private ImageView photoButtonClose;
+    public static ImageUtil imageUtil;
 
 
 
@@ -53,6 +55,7 @@ public class Camera extends AppCompatActivity {
         txtTitle = findViewById(R.id.txtTitle);
         txtDir = findViewById(R.id.txtDir);
         photoButtonClose = findViewById(R.id.photoButtonClose);
+
         photoButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +129,9 @@ public class Camera extends AppCompatActivity {
                         addBitmapToMemoryCache("imgmattruoc",croppedBitmap);
                         String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
                         bMatTruoc = croppedBitmapBase64;
-                        Log.d("onCreate2: ", croppedBitmapBase64);
+                        String basecode = getFileToByte("/sdcard/Android/data/com.phungtsm.test.fatboyOCR/files/quy-dinh-ve-anh-lam-chung-minh-thu-nhan-dan-3-1024x614.jpg");
+                        imageUtil = new ImageUtil("",basecode,"1");
+                        Log.d("basecode64: ", basecode);
                         Intent myIntent = new Intent(this, Cam_Captured.class);
                         myIntent.putExtra("imgmattruoc", "imgmattruoc");
                         startActivity(myIntent);
@@ -196,6 +201,24 @@ public class Camera extends AppCompatActivity {
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+    // Put the image file path into this method
+    public static String getFileToByte(String filePath){
+        Bitmap bmp = null;
+        ByteArrayOutputStream bos = null;
+        byte[] bt = null;
+        String encodeString = null;
+        try{
+            bmp = BitmapFactory.decodeFile(filePath);
+            bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+            bt = bos.toByteArray();
+            encodeString = Base64.encodeToString(bt, Base64.DEFAULT);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return encodeString;
     }
 
 }

@@ -2,10 +2,15 @@ package com.phungtsm.test.fatboyOCR;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,11 +29,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity2 extends AppCompatActivity {
-    private TextView tvSoCMND,tvHoTenCMND,tvNgaySinhCMND,tvQueQuanCMND,tvThuongTruCMND;
+    private TextView tvSoCMND, tvHoTenCMND, tvNgaySinhCMND, tvQueQuanCMND, tvThuongTruCMND;
     private TextView tvSoCCCD, tvHoTenCCCD, tvNgaySinhCCCD, tvGioiTinhCCCD, tvQueQuanCCCD, tvThuongTruCCCD, tvQuocTichCCCD, tvThoiHanCCCD;
     private TextView tvSoPP, tvHoTenPP, tvNgaySinhPP, tvGioiTinhPP, tvSoGCMND, tvQueQuanPP, tvQuocTichPP, tvLoaiPP, tvThoiHanPP;
     private LinearLayout pp_layout, cccd_layout, cmnd_layout;
-
+    private RelativeLayout progress_layout;
+    private Button btnHoanTat;
+    private ImageView photoButtonClose;
 
     APIInterface apiInterface;
     ImageUtil imageUtil;
@@ -54,7 +61,7 @@ public class MainActivity2 extends AppCompatActivity {
         tvNgaySinhCCCD = findViewById(R.id.tv_ngay_sinh_cccd);
         tvGioiTinhCCCD = findViewById(R.id.tv_gioi_tinh_cccd);
         tvQueQuanCCCD = findViewById(R.id.tv_que_quan_cccd);
-        tvThuongTruCCCD =  findViewById(R.id.tv_thuong_tru_cccd);
+        tvThuongTruCCCD = findViewById(R.id.tv_thuong_tru_cccd);
         tvQuocTichCCCD = findViewById(R.id.tv_quoc_tich_cccd);
         tvThoiHanCCCD = findViewById(R.id.tv_thoi_han_cccd);
 
@@ -68,32 +75,48 @@ public class MainActivity2 extends AppCompatActivity {
         tvThoiHanPP = findViewById(R.id.tv_thoi_han_pp);
         tvQuocTichPP = findViewById(R.id.tv_quoc_tich_pp);
 
+        progress_layout = findViewById(R.id.progress_layout);
+        btnHoanTat = findViewById(R.id.btn_hoan_tat);
+        photoButtonClose = findViewById(R.id.photoButtonClose);
+
+        photoButtonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        btnHoanTat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity2.this, MainActivity.class));
+            }
+        });
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
         Log.e("onCreate: ", String.valueOf(MainActivity.Flag));
         flag = MainActivity.Flag;
         imageUtil = Camera.imageUtil;
         getPersonalInfo();
-
+        progress_layout.setVisibility(View.VISIBLE);
     }
 
     private void getPersonalInfo() {
-        Post post = new Post("password","OCR_TEST","jr67gj0h76gr83nf8734nj59g4he895jh87nr","PWD@123","khanhpx@mobile-id.vn");
+        Post post = new Post("password", "OCR_TEST", "jr67gj0h76gr83nf8734nj59g4he895jh87nr", "PWD@123", "khanhpx@mobile-id.vn");
         Call<Currency> call1 = apiInterface.getResult(post);
         call1.enqueue(new Callback<Currency>() {
-
             @Override
             public void onResponse(Call<Currency> call, Response<Currency> response) {
-                Toast.makeText(MainActivity2.this,"Call API Success",Toast.LENGTH_SHORT).show();
                 Currency currency = response.body();
+
                 accessToken = currency.getAccess_token();
-                if(currency != null){
-                    if(flag==1){
-                        cmnd_layout.setVisibility(View.VISIBLE);
-                        Call<ResponCMND> callCMND = apiInterface.getCMNDInfo(imageUtil,"Bearer "+accessToken);
+                if (currency != null) {
+                    if (flag == 1) {
+
+                        Call<ResponCMND> callCMND = apiInterface.getCMNDInfo(imageUtil, "Bearer " + accessToken);
                         callCMND.enqueue(new Callback<ResponCMND>() {
                             @Override
                             public void onResponse(Call<ResponCMND> call, Response<ResponCMND> response) {
-                                Toast.makeText(MainActivity2.this,"get CMND Info success",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "get CMND Info success", Toast.LENGTH_SHORT).show();
                                 ResponCMND responCMND = response.body();
                                 CMND_Info cmnd_info = responCMND.getData();
                                 tvSoCMND.setText(cmnd_info.getId_number());
@@ -101,20 +124,23 @@ public class MainActivity2 extends AppCompatActivity {
                                 tvNgaySinhCMND.setText(cmnd_info.getDob());
                                 tvQueQuanCMND.setText(cmnd_info.getHome());
                                 tvThuongTruCMND.setText(cmnd_info.getAddress());
+
+                                progress_layout.setVisibility(View.GONE);
+                                cmnd_layout.setVisibility(View.VISIBLE);
                             }
 
                             @Override
                             public void onFailure(Call<ResponCMND> call, Throwable t) {
-                                Toast.makeText(MainActivity2.this,"Call CMND Error",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "Call CMND Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }else if(flag ==2){
-                        cccd_layout.setVisibility(View.VISIBLE);
-                        Call<ResponCCCD> callCCCD = apiInterface.getCCCDInfo(imageUtil,"Bearer "+accessToken);
+                    } else if (flag == 2) {
+
+                        Call<ResponCCCD> callCCCD = apiInterface.getCCCDInfo(imageUtil, "Bearer " + accessToken);
                         callCCCD.enqueue(new Callback<ResponCCCD>() {
                             @Override
                             public void onResponse(Call<ResponCCCD> call, Response<ResponCCCD> response) {
-                                Toast.makeText(MainActivity2.this,"get CCCD Info success",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "get CCCD Info success", Toast.LENGTH_SHORT).show();
                                 ResponCCCD responCCCD = response.body();
                                 CCCD_Info cccd_info = responCCCD.getData();
                                 tvSoCCCD.setText(cccd_info.getId_number());
@@ -125,21 +151,22 @@ public class MainActivity2 extends AppCompatActivity {
                                 tvThuongTruCCCD.setText(cccd_info.getAddress());
                                 tvQuocTichCCCD.setText(cccd_info.getNationality());
                                 tvThoiHanCCCD.setText(cccd_info.getDoe());
+                                progress_layout.setVisibility(View.GONE);
+                                cccd_layout.setVisibility(View.VISIBLE);
                             }
 
                             @Override
                             public void onFailure(Call<ResponCCCD> call, Throwable t) {
-                                Toast.makeText(MainActivity2.this,"Call CCCD Error",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "Call CCCD Error", Toast.LENGTH_SHORT).show();
                             }
                         });
-                    }else if(flag ==3){
-                        pp_layout.setVisibility(View.VISIBLE);
+                    } else if (flag == 3) {
 
-                        Call<ResponPP> callCCCD = apiInterface.getPPInfo(imageUtil,"Bearer "+accessToken);
-                        callCCCD.enqueue(new Callback<ResponPP>() {
+                        Call<ResponPP> callPP = apiInterface.getPPInfo(imageUtil, "Bearer " + accessToken);
+                        callPP.enqueue(new Callback<ResponPP>() {
                             @Override
                             public void onResponse(Call<ResponPP> call, Response<ResponPP> response) {
-                                Toast.makeText(MainActivity2.this,"get CCCD Info success",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "get PP Info success", Toast.LENGTH_SHORT).show();
                                 ResponPP responPP = response.body();
                                 PP_Info pp_info = responPP.getData();
 
@@ -152,20 +179,24 @@ public class MainActivity2 extends AppCompatActivity {
                                 tvThoiHanPP.setText(pp_info.getDoe());
                                 tvSoGCMND.setText(pp_info.getId_number());
                                 tvQuocTichPP.setText(pp_info.getNationality());
+                                progress_layout.setVisibility(View.GONE);
+                                pp_layout.setVisibility(View.VISIBLE);
                             }
 
                             @Override
                             public void onFailure(Call<ResponPP> call, Throwable t) {
-                                Toast.makeText(MainActivity2.this,"Call PP Error",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity2.this, "Call PP Error", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
 
                 }
             }
+
             @Override
             public void onFailure(Call<Currency> call, Throwable t) {
-                Toast.makeText(MainActivity2.this,"Call API Error",Toast.LENGTH_SHORT).show();
+                progress_layout.setVisibility(View.GONE);
+                Toast.makeText(MainActivity2.this, "Call API Error", Toast.LENGTH_SHORT).show();
             }
 
         });

@@ -12,10 +12,11 @@
         <entry key="..\:/fatboyOCR/app/src/main/res/drawable/close.xml" value="0.28489583333333335" />
         <entry key="..\:/fatboyOCR/app/src/main/res/drawable/close_button.xml" value="0.24259259259259258" />
         <entry key="..\:/fatboyOCR/app/src/main/res/drawable/ic_launcher_background.xml" value="0.28489583333333335" />
-        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_cam_captured.xml" value="0.5171990171990172" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/drawable/underline.xml" value="0.28489583333333335" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_cam_captured.xml" value="0.25" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_camera.xml" value="0.22" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main.xml" value="0.2546875" />
-        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main2.xml" value="0.25" />
+        <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main2.xml" value="0.22" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main_cccd.xml" value="0.26875" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main_cmnd.xml" value="0.26875" />
         <entry key="..\:/fatboyOCR/app/src/main/res/layout/activity_main_hc.xml" value="0.26875" />

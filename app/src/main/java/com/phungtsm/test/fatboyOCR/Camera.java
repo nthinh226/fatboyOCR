@@ -129,8 +129,9 @@ public class Camera extends AppCompatActivity {
                         addBitmapToMemoryCache("imgmattruoc",croppedBitmap);
                         String croppedBitmapBase64 = Utils.convertToBase64(croppedBitmap);
                         bMatTruoc = croppedBitmapBase64;
-                        String basecode = getFileToByte("/sdcard/Android/data/com.phungtsm.test.fatboyOCR/files/quy-dinh-ve-anh-lam-chung-minh-thu-nhan-dan-3-1024x614.jpg");
-                        imageUtil = new ImageUtil("",basecode,"1");
+//                        String basecode = getFileToByte("/sdcard/Android/data/com.phungtsm.test.fatboyOCR/files/quy-dinh-ve-anh-lam-chung-minh-thu-nhan-dan-3-1024x614.jpg");
+                        String basecode = getFileToByte("/sdcard/Android/data/com.phungtsm.test.fatboyOCR/files/12.JPG");
+                        imageUtil = new ImageUtil("PASSPORT",basecode,"1");
                         Log.d("basecode64: ", basecode);
                         Intent myIntent = new Intent(this, Cam_Captured.class);
                         myIntent.putExtra("imgmattruoc", "imgmattruoc");
